@@ -6,27 +6,24 @@
   <title>将项目迁移到Swift 3 | iOS_Monk</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="最近将公司项目从Swift 2.3迁移到Swift 3.0，总共用了四个工作日多点，一个人做的迁移和code review。主要是不能完全依赖于Xcode的refractor，哪怕是refracted出来的代码还是需要再次去review，否则很有可能影响原来的逻辑，所以花的时间还是比较多的。
-##准备工作
-
+准备工作
 知识准备
- 在迁移之前我阅读了一篇Swift官方的Migration Guide, 这里基">
+ 在迁移之前我阅读了一篇Swift官方的Migration Guide, 这里基本上涵">
 <meta property="og:type" content="article">
 <meta property="og:title" content="将项目迁移到Swift 3">
 <meta property="og:url" content="http://iosmonk.com/2017/03/04/hello-world/index.html">
 <meta property="og:site_name" content="iOS_Monk">
 <meta property="og:description" content="最近将公司项目从Swift 2.3迁移到Swift 3.0，总共用了四个工作日多点，一个人做的迁移和code review。主要是不能完全依赖于Xcode的refractor，哪怕是refracted出来的代码还是需要再次去review，否则很有可能影响原来的逻辑，所以花的时间还是比较多的。
-##准备工作
-
+准备工作
 知识准备
- 在迁移之前我阅读了一篇Swift官方的Migration Guide, 这里基">
-<meta property="og:updated_time" content="2017-03-04T14:25:42.000Z">
+ 在迁移之前我阅读了一篇Swift官方的Migration Guide, 这里基本上涵">
+<meta property="og:updated_time" content="2017-03-04T14:28:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="将项目迁移到Swift 3">
 <meta name="twitter:description" content="最近将公司项目从Swift 2.3迁移到Swift 3.0，总共用了四个工作日多点，一个人做的迁移和code review。主要是不能完全依赖于Xcode的refractor，哪怕是refracted出来的代码还是需要再次去review，否则很有可能影响原来的逻辑，所以花的时间还是比较多的。
-##准备工作
-
+准备工作
 知识准备
- 在迁移之前我阅读了一篇Swift官方的Migration Guide, 这里基">
+ 在迁移之前我阅读了一篇Swift官方的Migration Guide, 这里基本上涵">
   
     <link rel="alternative" href="/atom.xml" title="iOS_Monk" type="application/atom+xml">
   
@@ -99,16 +96,14 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>最近将公司项目从Swift 2.3迁移到Swift 3.0，总共用了四个工作日多点，一个人做的迁移和code review。主要是不能完全依赖于Xcode的refractor，哪怕是refracted出来的代码还是需要再次去review，否则很有可能影响原来的逻辑，所以花的时间还是比较多的。</p>
-<p>##准备工作</p>
-<ol>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ol>
 <li><p>知识准备</p>
 <p> 在迁移之前我阅读了一篇Swift官方的<a href="https://swift.org/migration-guide/" target="_blank" rel="external">Migration Guide</a>, 这里基本上涵盖了迁移<br>时可能遇到的问题。</p>
 <p> 其次我还阅读了一篇<a href="http://www.infoq.com/cn/news/2017/03/Airbnb-to-Swift-3?winzoom=1" target="_blank" rel="external">Airbnb迁移到Swift 3的实践</a>，这里附上汉化版本的。</p>
 </li>
 <li>收拾心情，做好长时间专注的准备</li>
 </ol>
-<p>##开始</p>
-<p>###第三方依赖库的升级<br>由于我们项目使用的是cocoapods，所以需要先去pod search下最新版本的库，看看有没有支持到Swift 3.0。如果某个库没有支持到Swift 3.0，那么就只能做成私有库。我们项目中有个播放器的库还没有支持Swift 3.0的版本，所以我们就只能对Swift 2.3的代码进行迁移并做成私有库。这部分的逻辑比较简单，直接用Xcode的refractor迁移就可以了，最后别忘记将<strong><em>Build Setting-&gt;Use Legacy Swift Language Version</em></strong>改成No。至于如何做cocoapods的私有库，大家可以去网上搜索相关资料。</p>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><h3 id="第三方依赖库的升级"><a href="#第三方依赖库的升级" class="headerlink" title="第三方依赖库的升级"></a>第三方依赖库的升级</h3><p>由于我们项目使用的是cocoapods，所以需要先去pod search下最新版本的库，看看有没有支持到Swift 3.0。如果某个库没有支持到Swift 3.0，那么就只能做成私有库。我们项目中有个播放器的库还没有支持Swift 3.0的版本，所以我们就只能对Swift 2.3的代码进行迁移并做成私有库。这部分的逻辑比较简单，直接用Xcode的refractor迁移就可以了，最后别忘记将<strong><em>Build Setting-&gt;Use Legacy Swift Language Version</em></strong>改成No。至于如何做cocoapods的私有库，大家可以去网上搜索相关资料。</p>
 <p>###本身项目的升级<br>本身项目的升级，那么需要关注的点就比较多了。</p>
 <ol>
 <li>Swift 3.0中的方法命名不同于Swift 2.3中的。</li>
