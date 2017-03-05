@@ -17,7 +17,7 @@
 准备工作
 知识准备
  在迁移之前我阅读了一篇Swift官方的Migration Guide, 这里基本上">
-<meta property="og:updated_time" content="2017-03-05T13:39:52.000Z">
+<meta property="og:updated_time" content="2017-03-05T13:41:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="迁移到Swift 3">
 <meta name="twitter:description" content="最近将公司项目从Swift 2.3迁移到Swift 3，总共用了四个工作日多点，一个人做的迁移和code review。主要是不能完全依赖于Xcode的refractor，哪怕是refracted出来的代码还是需要再次去review，否则很有可能影响原来的逻辑和功能，所以花的时间还是比较多的。
@@ -122,7 +122,7 @@
  <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Swift 2.3</span></div><div class="line"><span class="keyword">var</span> actionBlock: ((<span class="type">ContactBean</span>, (success: <span class="type">Bool</span>) -&gt; <span class="type">Void</span>)-&gt;())?</div><div class="line"><span class="comment">//Swift 3</span></div><div class="line"><span class="keyword">var</span> actionBlock: ((<span class="type">ContactBean</span>,@escaping (<span class="number">_</span> success: <span class="type">Bool</span>) -&gt; <span class="type">Void</span>)-&gt;())?</div></pre></td></tr></table></figure>
 <p> 在Swift 2.3时候编译器对上述方法的声明没有任何警告，但是在Swift 3下，编译器有了警告。这里有两个问题需要探讨：</p>
 <ul>
-<li><p>为什么需要在 <strong><em>(\</em> success: Bool) -&gt; Void_</strong> 这个closure前加@escaping修饰符呢？</p>
+<li><p>为什么需要在 <strong><em>(</em> success: Bool) -&gt; Void_</strong> 这个closure前加@escaping修饰符呢？</p>
 <p>  其实这是有上下文的，因为在我们项目中，给这个actionBlock赋值的时候，是传的一个函数。</p>
   <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//actionBlock assignment statement</span></div><div class="line">cell.actionBlock = watchContact</div><div class="line"></div><div class="line"><span class="comment">//the definition of watchContact function</span></div><div class="line">fileprivate <span class="function"><span class="keyword">func</span> <span class="title">watchContact</span><span class="params">(<span class="number">_</span> contact: ContactBean, completion: @escaping <span class="params">(<span class="number">_</span> success: Bool)</span></span></span> -&gt; <span class="type">Void</span>) &#123;</div><div class="line">       <span class="keyword">let</span> request = ...</div><div class="line">       request.startWithCompletionBlock(</div><div class="line">           success: &#123; request <span class="keyword">in</span></div><div class="line">             	<span class="comment">//use the escaped closure</span></div><div class="line">               completion(<span class="literal">true</span>)</div><div class="line">           &#125;</div><div class="line">           )</div><div class="line">       &#123; request <span class="keyword">in</span></div><div class="line">       	<span class="comment">//failure block</span></div><div class="line">       &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
@@ -188,7 +188,7 @@ A closure is said to escape a function when the closure is passed as an argument
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://iosmonk.com/2017/03/04/hello-world/" data-id="cizwq5yec0000ibeykgf2celf" class="article-share-link">Share</a>
+      <a data-url="http://iosmonk.com/2017/03/04/hello-world/" data-id="cizwq7kfk0000jfeyb8vekxay" class="article-share-link">Share</a>
       
       
     </footer>
