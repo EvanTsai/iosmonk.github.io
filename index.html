@@ -144,13 +144,10 @@
 </li>
 <li><p>IUO(ImplicitylyUnwrappedOptional)的变更</p>
 <h4 id="Snippet-1"><a href="#Snippet-1" class="headerlink" title="Snippet 1"></a>Snippet 1</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> firstImageView: <span class="type">UIImageView</span>!</div><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> secondImageView: <span class="type">UIImageView</span>!</div><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> thirdImageView: <span class="type">UIImageView</span>!</div><div class="line">  <span class="keyword">let</span> imgvs = [firstImageView, secondImageView, thirdImageView]</div></pre></td></tr></table></figure>
+<h4 id="Snippet-2"><a href="#Snippet-2" class="headerlink" title="Snippet 2"></a>Snippet 2</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> firstImageView: <span class="type">UIImageView</span>!</div><div class="line"><span class="keyword">let</span> anotherImageView = firstImageView</div></pre></td></tr></table></figure>
 </li>
 </ol>
-<pre><code>#### Snippet 2
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> firstImageView: <span class="type">UIImageView</span>!</div><div class="line"><span class="keyword">let</span> anotherImageView = firstImageView</div></pre></td></tr></table></figure>
-
-
-在Swift 3中snipppet 1中的imgvs类型是[UIImageView?]，snippet 2中的anotherImageView的类型是UIImageView?。这不同于Swift 2.3中的表现，故你会发现在refracted后会有很多警告提示要增加？。
+<pre><code>在Swift 3中snipppet 1中的imgvs类型是[UIImageView?]，snippet 2中的anotherImageView的类型是UIImageView?。这不同于Swift 2.3中的表现，故你会发现在refracted后会有很多警告提示要增加？。
 同时我们不能写nested IUOs.
 
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> firstImageView: <span class="type">UIImageView</span>!</div><div class="line"><span class="comment">//compiler will complain about the following line of codes</span></div><div class="line"><span class="keyword">let</span> anotherImageView: [<span class="type">UIImageView</span>!] = [firstImageView]</div></pre></td></tr></table></figure>
@@ -175,7 +172,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://iosmonk.com/2017/03/04/hello-world/" data-id="cizwrafp30000xceyimqx72z4" class="article-share-link">Share</a>
+      <a data-url="http://iosmonk.com/2017/03/04/hello-world/" data-id="cizwrcnhz0000y8ey6zag6d4h" class="article-share-link">Share</a>
       
       
     </footer>
