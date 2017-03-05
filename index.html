@@ -114,8 +114,8 @@
  <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Swift 2.3</span></div><div class="line"><span class="keyword">var</span> actionBlock: ((<span class="type">ContactBean</span>, (success: <span class="type">Bool</span>) -&gt; <span class="type">Void</span>)-&gt;())?</div><div class="line"><span class="comment">//Swift 3</span></div><div class="line"><span class="keyword">var</span> actionBlock: ((<span class="type">ContactBean</span>,@escaping (<span class="number">_</span> success: <span class="type">Bool</span>) -&gt; <span class="type">Void</span>)-&gt;())?</div></pre></td></tr></table></figure>
 <p> 在Swift 2.3时候编译器对上述方法的声明没有任何警告，但是在Swift 3下，编译器有了警告。这里有两个问题需要探讨：</p>
 <ul>
-<li><p>为什么需要在 <strong><em>(\</em> success: Bool) -&gt; Void_</strong> 这个closure前加@escaping修饰符呢？</p>
-<p>  其实这是有上下文的，因为在我们项目中，给这个actionBlock赋值的时候，是传的一个函数。</p>
+<li><p>为什么需要在 <strong>(_ success: Bool) -&gt; Void</strong> 这个closure前加@escaping修饰符呢？</p>
+<p>其实这是有上下文的，因为在我们项目中，给这个actionBlock赋值的时候，是传的一个函数。</p>
   <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//actionBlock assignment statement</span></div><div class="line">cell.actionBlock = watchContact</div><div class="line"></div><div class="line"><span class="comment">//the definition of watchContact function</span></div><div class="line">fileprivate <span class="function"><span class="keyword">func</span> <span class="title">watchContact</span><span class="params">(<span class="number">_</span> contact: ContactBean, completion: @escaping <span class="params">(<span class="number">_</span> success: Bool)</span></span></span> -&gt; <span class="type">Void</span>) &#123;</div><div class="line">	<span class="keyword">let</span> request = ...</div><div class="line">	request.startWithCompletionBlock(</div><div class="line">           success: &#123; request <span class="keyword">in</span></div><div class="line">             	<span class="comment">//use the escaped closure</span></div><div class="line">               completion(<span class="literal">true</span>)</div><div class="line">           &#125;</div><div class="line">           )</div><div class="line">       &#123; request <span class="keyword">in</span></div><div class="line">       	<span class="comment">//failure block</span></div><div class="line">       &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
 </ul>
@@ -124,7 +124,7 @@
 <p>因为在watchContact function中有网络请求，并且completion closure是在请求完成后才调用的，而watchContact方法在这之前就已经return了，也就是这个closure逃逸了，故需要@escaping修饰符。(备注：watchContact中的@escaping也是这次升级才加上去的)</p>
 <pre><code>+ 为什么Swift 2.3中不用加@escaping？
 
-    因为Swift 2.3中closures默认是@escaping，而Swift 3中closures则默认是non-escaping。
+ 因为Swift 2.3中closures默认是@escaping，而Swift 3中closures则默认是non-escaping。
 
 一个closure是不是需要加上@escaping修饰符，应该是我们开发者需要去思考的事，不能依赖于编译器去发现这种疏漏。
 
@@ -179,7 +179,7 @@ A closure is said to escape a function when the closure is passed as an argument
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://iosmonk.com/2017/03/04/hello-world/" data-id="cizwqdvqh0000meey18oh363r" class="article-share-link">Share</a>
+      <a data-url="http://iosmonk.com/2017/03/04/hello-world/" data-id="cizwqgke60000njeyxme71dp2" class="article-share-link">Share</a>
       
       
     </footer>
