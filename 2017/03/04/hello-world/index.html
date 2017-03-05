@@ -17,7 +17,7 @@
 准备工作
 知识准备
  在迁移之前我阅读了一篇Swift官方的Migration Guide, 这里基本上">
-<meta property="og:updated_time" content="2017-03-05T13:48:10.000Z">
+<meta property="og:updated_time" content="2017-03-05T13:51:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="迁移到Swift 3">
 <meta name="twitter:description" content="最近将公司项目从Swift 2.3迁移到Swift 3，总共用了四个工作日多点，一个人做的迁移和code review。主要是不能完全依赖于Xcode的refractor，哪怕是refracted出来的代码还是需要再次去review，否则很有可能影响原来的逻辑和功能，所以花的时间还是比较多的。
@@ -148,18 +148,16 @@ A closure is said to escape a function when the closure is passed as an argument
 <p> 诸如NSIndexPath, NSURL, NSData这样的类，被重构成了IndexPath, URL, Data。有趣的不仅仅是命名的变更，而是类型的改变。IndexPath、URL、Data在Swift中是<strong>struct</strong>类型，意味着它们是<strong>value semantic</strong>。</p>
 <p> 同时，Swift带来的好处就是简化了immutable和mutable的表示，原来在Obj-c中我们需要NSMutableData来表示mutable的Data类，但是在Swift中，可变和不可变完全可以通过<strong>var</strong>和<strong>let</strong>来表示，从而将NSMutableData和NSData合为一个Data struct。</p>
 <p> 根据文档的说明，我们可以把Data值作为参数传给Objective-C APIs，我们也可以把NSData对象作为参数传给Swift APIs，我们还可以用<strong>as</strong>显式的进行两者之间的cast。<br> 实现<strong>reference type</strong>和<strong>value type</strong>转换的关键在于一个叫<strong>ReferenceConvertible</strong>的协议，至于是如何实现的，之后会有其他文章进行讨论。</p>
- <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">struct</span> <span class="title">URL</span> : <span class="title">ReferenceConvertible</span>, <span class="title">Equatable</span> </span>&#123;</div><div class="line">	   <span class="keyword">public</span> <span class="keyword">typealias</span> <span class="type">ReferenceType</span> = <span class="type">NSURL</span></div><div class="line">	   ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+ <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">struct</span> <span class="title">URL</span> : <span class="title">ReferenceConvertible</span>, <span class="title">Equatable</span> </span>&#123;</div><div class="line">   <span class="keyword">public</span> <span class="keyword">typealias</span> <span class="type">ReferenceType</span> = <span class="type">NSURL</span></div><div class="line">   ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
 <li><p>常量的重构</p>
  <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Swift 2.3</span></div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> firstLanguage = <span class="type">NSLocale</span>.preferredLanguages().first &#123;</div><div class="line">	<span class="keyword">let</span> dict = <span class="type">NSLocale</span>.componentsFromLocaleIdentifier(firstLanguage)</div><div class="line">	<span class="comment">//从用户</span></div><div class="line">	<span class="keyword">let</span> languageCode = dict[<span class="type">String</span>(kCFLocaleLanguageCode)]!</div><div class="line">	<span class="comment">//do something with the languageCode</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//Swift 3   </span></div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> firstLanguage = <span class="type">NSLocale</span>.preferredLanguages().first &#123;</div><div class="line">	<span class="keyword">let</span> dict = <span class="type">Locale</span>.components(fromIdentifier: firstLanguage)</div><div class="line">	<span class="keyword">let</span> languageCode = dict[<span class="type">String</span>(describing: <span class="type">CFLocaleKey</span>.languageCode.rawValue)]!</div><div class="line">	<span class="comment">//do something with the languageCode</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p> 上面代码中，kCFLocaleLanguageCode常量已经变成了一个结构体。这种转变使得常量更有组织性。而我们也可以尽可能的采用这种方法定义常量。如：</p>
  <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">OneTableViewControllerConfiguration</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">let</span> cellHeight: <span class="type">CGFloat</span> = <span class="number">120.0</span></div><div class="line">	...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
-</ol>
-<ol>
 <li><p>IUO(ImplicitylyUnwrappedOptional)的变更</p>
-<p> ####Snippet 1</p>
- <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> firstImageView: <span class="type">UIImageView</span>!</div><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> secondImageView: <span class="type">UIImageView</span>!</div><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> thirdImageView: <span class="type">UIImageView</span>!</div><div class="line">  <span class="keyword">let</span> imgvs = [firstImageView, secondImageView, thirdImageView]</div></pre></td></tr></table></figure>
+<p>####Snippet 1</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> firstImageView: <span class="type">UIImageView</span>!</div><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> secondImageView: <span class="type">UIImageView</span>!</div><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> thirdImageView: <span class="type">UIImageView</span>!</div><div class="line">  <span class="keyword">let</span> imgvs = [firstImageView, secondImageView, thirdImageView]</div></pre></td></tr></table></figure>
 </li>
 </ol>
 <pre><code>####Snippet 2
@@ -187,7 +185,7 @@ A closure is said to escape a function when the closure is passed as an argument
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://iosmonk.com/2017/03/04/hello-world/" data-id="cizwqgke60000njeyxme71dp2" class="article-share-link">Share</a>
+      <a data-url="http://iosmonk.com/2017/03/04/hello-world/" data-id="cizwql3j80000pbey5cvabh81" class="article-share-link">Share</a>
       
       
     </footer>
