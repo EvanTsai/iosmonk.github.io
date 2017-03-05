@@ -5,25 +5,25 @@
   
   <title>迁移到Swift 3 | iOS_Monk</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近将公司项目从Swift 2.3迁移到Swift 3.0，总共用了四个工作日多点，一个人做的迁移和code review。主要是不能完全依赖于Xcode的refractor，哪怕是refracted出来的代码还是需要再次去review，否则很有可能影响原来的逻辑和功能，所以花的时间还是比较多的。
+  <meta name="description" content="最近将公司项目从Swift 2.3迁移到Swift 3，总共用了四个工作日多点，一个人做的迁移和code review。主要是不能完全依赖于Xcode的refractor，哪怕是refracted出来的代码还是需要再次去review，否则很有可能影响原来的逻辑和功能，所以花的时间还是比较多的。
 准备工作
 知识准备
- 在迁移之前我阅读了一篇Swift官方的Migration Guide, 这里基">
+ 在迁移之前我阅读了一篇Swift官方的Migration Guide, 这里基本上">
 <meta property="og:type" content="article">
 <meta property="og:title" content="迁移到Swift 3">
 <meta property="og:url" content="http://iosmonk.com/2017/03/04/hello-world/index.html">
 <meta property="og:site_name" content="iOS_Monk">
-<meta property="og:description" content="最近将公司项目从Swift 2.3迁移到Swift 3.0，总共用了四个工作日多点，一个人做的迁移和code review。主要是不能完全依赖于Xcode的refractor，哪怕是refracted出来的代码还是需要再次去review，否则很有可能影响原来的逻辑和功能，所以花的时间还是比较多的。
+<meta property="og:description" content="最近将公司项目从Swift 2.3迁移到Swift 3，总共用了四个工作日多点，一个人做的迁移和code review。主要是不能完全依赖于Xcode的refractor，哪怕是refracted出来的代码还是需要再次去review，否则很有可能影响原来的逻辑和功能，所以花的时间还是比较多的。
 准备工作
 知识准备
- 在迁移之前我阅读了一篇Swift官方的Migration Guide, 这里基">
-<meta property="og:updated_time" content="2017-03-05T08:52:03.000Z">
+ 在迁移之前我阅读了一篇Swift官方的Migration Guide, 这里基本上">
+<meta property="og:updated_time" content="2017-03-05T12:51:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="迁移到Swift 3">
-<meta name="twitter:description" content="最近将公司项目从Swift 2.3迁移到Swift 3.0，总共用了四个工作日多点，一个人做的迁移和code review。主要是不能完全依赖于Xcode的refractor，哪怕是refracted出来的代码还是需要再次去review，否则很有可能影响原来的逻辑和功能，所以花的时间还是比较多的。
+<meta name="twitter:description" content="最近将公司项目从Swift 2.3迁移到Swift 3，总共用了四个工作日多点，一个人做的迁移和code review。主要是不能完全依赖于Xcode的refractor，哪怕是refracted出来的代码还是需要再次去review，否则很有可能影响原来的逻辑和功能，所以花的时间还是比较多的。
 准备工作
 知识准备
- 在迁移之前我阅读了一篇Swift官方的Migration Guide, 这里基">
+ 在迁移之前我阅读了一篇Swift官方的Migration Guide, 这里基本上">
   
     <link rel="alternative" href="/atom.xml" title="iOS_Monk" type="application/atom+xml">
   
@@ -95,7 +95,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近将公司项目从Swift 2.3迁移到Swift 3.0，总共用了四个工作日多点，一个人做的迁移和code review。主要是不能完全依赖于Xcode的refractor，哪怕是refracted出来的代码还是需要再次去review，否则很有可能影响原来的逻辑和功能，所以花的时间还是比较多的。</p>
+        <p>最近将公司项目从Swift 2.3迁移到Swift 3，总共用了四个工作日多点，一个人做的迁移和code review。主要是不能完全依赖于Xcode的refractor，哪怕是refracted出来的代码还是需要再次去review，否则很有可能影响原来的逻辑和功能，所以花的时间还是比较多的。</p>
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ol>
 <li><p>知识准备</p>
 <p> 在迁移之前我阅读了一篇Swift官方的<a href="https://swift.org/migration-guide/" target="_blank" rel="external">Migration Guide</a>, 这里基本上涵盖了大部分迁移时可能遇到的问题。</p>
@@ -103,12 +103,12 @@
 </li>
 <li>收拾心情，做好长时间专注的准备</li>
 </ol>
-<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><h3 id="第三方依赖库的升级"><a href="#第三方依赖库的升级" class="headerlink" title="第三方依赖库的升级"></a>第三方依赖库的升级</h3><p>由于我们项目使用的是cocoapods，所以需要先去pod search下最新版本的库，看看有没有支持到Swift 3.0。如果某个库没有支持到Swift 3.0，那么就只能做成私有库。我们项目中有个播放器的库还没有支持Swift 3.0的版本，所以我们就只能对Swift 2.3的代码进行迁移并做成私有库。这部分的逻辑比较简单，直接用Xcode的refractor迁移就可以了，最后别忘记将<strong><em>Build Setting-&gt;Use Legacy Swift Language Version</em></strong>改成No。至于如何做cocoapods的私有库，大家可以去网上搜索相关资料。</p>
-<h3 id="本身项目的升级"><a href="#本身项目的升级" class="headerlink" title="本身项目的升级"></a>本身项目的升级</h3><p>下面罗列的不仅仅是Swift 3.0的改变，也包含了我们项目中存在的不严谨，通过这次迁移得到的改善。</p>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><h3 id="第三方依赖库的升级"><a href="#第三方依赖库的升级" class="headerlink" title="第三方依赖库的升级"></a>第三方依赖库的升级</h3><p>由于我们项目使用的是cocoapods，所以需要先去pod search下最新版本的库，看看有没有支持到Swift 3。如果某个库没有支持到Swift 3，那么就只能做成私有库。我们项目中有个播放器的库还没有支持Swift 3的版本，所以我们就只能对Swift 2.3的代码进行迁移并做成私有库。这部分的逻辑比较简单，直接用Xcode的refractor迁移就可以了，最后别忘记将<strong><em>Build Setting-&gt;Use Legacy Swift Language Version</em></strong>改成No。至于如何做cocoapods的私有库，大家可以去网上搜索相关资料。</p>
+<h3 id="本身项目的升级"><a href="#本身项目的升级" class="headerlink" title="本身项目的升级"></a>本身项目的升级</h3><p>下面罗列的不仅仅是Swift 3的改变，也包含了我们项目中存在的不严谨，通过这次迁移得到的改善。</p>
 <ol>
-<li><p>Swift 3.0中的方法、枚举值命名规范不同于Swift 2.3中的</p>
- <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Swift 2.3</span></div><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">setSelected</span><span class="params">(selected: Bool, animated: Bool)</span></span> &#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">//Swift 3.0</span></div><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">setSelected</span><span class="params">(<span class="number">_</span> selected: Bool, animated: Bool)</span></span> &#123;&#125;</div></pre></td></tr></table></figure>
-<p> 上面是UITableViewCell被选中时调用的方法，明显可以看出first argument label被省略了。我们如果去调用一个含有underscore的function时，我们可以省略那个参数的argument label。但是在Swift 2.3中默认就是省略第一个参数的argument label，即使你显示声明了argument label。</p>
+<li><p>方法、枚举值命名规范的变更</p>
+ <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Swift 2.3</span></div><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">setSelected</span><span class="params">(selected: Bool, animated: Bool)</span></span> &#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">//Swift 3</span></div><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">setSelected</span><span class="params">(<span class="number">_</span> selected: Bool, animated: Bool)</span></span> &#123;&#125;</div></pre></td></tr></table></figure>
+<p> 上面是UITableViewCell被选中时调用的方法，明显可以看出first argument label被省略了。我们如果去调用一个含有underscore的function时，我们可以省略那个参数的argument label。但是在Swift 2.3中默认就是省略第一个参数的argument label，即使你显式声明了argument label。</p>
 <p> 下面是官方文档的详解：</p>
 <blockquote>
 <p>Omitting Argument Labels<br> If you don’t want an argument label for a parameter, write an underscore (_) instead of an explicit argument label for that parameter.</p>
@@ -116,30 +116,68 @@
 <p><em>The Swift Programming Language (Swift 3)</em></p>
 </blockquote>
 <p> 而枚举值的变更只是从uppercase统一转换为lowercase。</p>
- <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Swift 2.3</span></div><div class="line">selectionStyle = .<span class="type">None</span></div><div class="line"><span class="comment">//Swift 3.0</span></div><div class="line">selectionStyle = .<span class="keyword">none</span></div></pre></td></tr></table></figure>
+ <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Swift 3</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">UITableViewCellSelectionStyle</span> : <span class="title">Int</span> </span>&#123;</div><div class="line">   <span class="keyword">case</span> <span class="keyword">none</span></div><div class="line">   <span class="keyword">case</span> blue</div><div class="line">   <span class="keyword">case</span> gray</div><div class="line">   <span class="meta">@available</span>(iOS <span class="number">7.0</span>, *)</div><div class="line">   <span class="keyword">case</span> `<span class="keyword">default</span>`</div><div class="line">&#125;</div><div class="line"><span class="comment">//Swift 2.3</span></div><div class="line">selectionStyle = .<span class="type">None</span></div><div class="line"><span class="comment">//Swift 3</span></div><div class="line">selectionStyle = .<span class="keyword">none</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>Closures不再是默认non-escaping</p>
+ <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Swift 2.3</span></div><div class="line"><span class="keyword">var</span> actionBlock: ((<span class="type">ContactBean</span>, (success: <span class="type">Bool</span>) -&gt; <span class="type">Void</span>)-&gt;())?</div><div class="line"><span class="comment">//Swift 3</span></div><div class="line"><span class="keyword">var</span> actionBlock: ((<span class="type">ContactBean</span>,@escaping (<span class="number">_</span> success: <span class="type">Bool</span>) -&gt; <span class="type">Void</span>)-&gt;())?</div></pre></td></tr></table></figure>
+<p> 在Swift 2.3时候编译器对上述方法的声明没有任何警告，但是在Swift 3下，编译器有了警告。这里有两个问题需要探讨：</p>
+<ul>
+<li><p>为什么需要在 <strong><em>(\</em> success: Bool) -&gt; Void_</strong> 这个closure前加@escaping修饰符呢？</p>
+<p>  其实这是有上下文的，因为在我们项目中，给这个actionBlock赋值的时候，是传的一个函数。</p>
+  <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//actionBlock assignment statement</span></div><div class="line">cell.actionBlock = watchContact</div><div class="line"></div><div class="line"><span class="comment">//the definition of watchContact function</span></div><div class="line"> fileprivate <span class="function"><span class="keyword">func</span> <span class="title">watchContact</span><span class="params">(<span class="number">_</span> contact: ContactBean, completion: @escaping <span class="params">(<span class="number">_</span> success: Bool)</span></span></span> -&gt; <span class="type">Void</span>) &#123;</div><div class="line">        <span class="keyword">let</span> request = ...</div><div class="line">        request.startWithCompletionBlock(</div><div class="line">            success: &#123; request <span class="keyword">in</span></div><div class="line">              	<span class="comment">//use the escaped closure</span></div><div class="line">                completion(<span class="literal">true</span>)</div><div class="line">            &#125;</div><div class="line">            )</div><div class="line">        &#123; request <span class="keyword">in</span></div><div class="line">        	<span class="comment">//failure block</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<pre><code>    因为在watchContact function中有网络请求，并且completion closure是在请求完成后才调用的，而watchContact方法在这之前就已经return了，也就是这个closure逃逸了，故需要@escaping修饰符。(备注：watchContact中的@escaping也是这次升级才加上去的)
+
++ 为什么Swift 2.3中不用加@escaping？
+
+    因为Swift 2.3中closures默认是@escaping，而Swift 3中closures则默认是non-escaping。
+
+一个closure是不是需要加上@escaping修饰符，应该是我们开发者需要去思考的事，不能依赖于编译器去发现这种疏漏。
+
+下面是官方文档的详解：
+&gt; Escaping Closures
+A closure is said to escape a function when the closure is passed as an argument to the function, but is called after the function returns. When you declare a function that takes a closure as one of its parameters, you can write @escaping before the parameter’s type to indicate that the closure is allowed to escape.
+
+&gt; One way that a closure can escape is by being stored in a variable that is defined outside the function. As an example, many functions that start an **_asynchronous_** operation take a closure argument as a completion handler. **_The function returns after it starts the operation, but the closure isn’t called until the operation is completed—the closure needs to escape, to be called later._**
+
+&gt; _The Swift Programming Language (Swift 3)_
+</code></pre><ol>
+<li><p>去掉NS前缀</p>
+<p> 诸如NSIndexPath, NSURL, NSData这样的类，被重构成了IndexPath, URL, Data。有趣的不仅仅是命名的变更，而是类型的改变。IndexPath、URL、Data在Swift中是<strong>struct</strong>类型，意味着它们是<strong>value semantic</strong>。</p>
+<p> 同时，Swift带来的好处就是简化了immutable和mutable的表示，原来在Obj-c中我们需要NSMutableData来表示mutable的Data类，但是在Swift中，可变和不可变完全可以通过<strong>var</strong>和<strong>let</strong>来表示，从而将NSMutableData和NSData合为一个Data struct。</p>
+<p> 根据文档的说明，我们可以把Data值作为参数传给Objective-C APIs，我们也可以把NSData对象作为参数传给Swift APIs，我们还可以用<strong>as</strong>显式的进行两者之间的cast。<br> 实现<strong>reference type</strong>和<strong>value type</strong>转换的关键在于一个叫<strong>ReferenceConvertible</strong>的协议，至于是如何实现的，之后会有其他文章进行讨论。</p>
+ <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">struct</span> <span class="title">URL</span> : <span class="title">ReferenceConvertible</span>, <span class="title">Equatable</span> </span>&#123;</div><div class="line">   <span class="keyword">public</span> <span class="keyword">typealias</span> <span class="type">ReferenceType</span> = <span class="type">NSURL</span></div><div class="line">   ...</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>常量的重构</p>
+ <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Swift 2.3</span></div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> firstLanguage = <span class="type">NSLocale</span>.preferredLanguages().first &#123;</div><div class="line">	<span class="keyword">let</span> dict = <span class="type">NSLocale</span>.componentsFromLocaleIdentifier(firstLanguage)</div><div class="line">	<span class="comment">//从用户</span></div><div class="line">	<span class="keyword">let</span> languageCode = dict[<span class="type">String</span>(kCFLocaleLanguageCode)]!</div><div class="line">	<span class="comment">//do something with the languageCode</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//Swift 3   </span></div><div class="line"><span class="keyword">if</span> <span class="keyword">let</span> firstLanguage = <span class="type">NSLocale</span>.preferredLanguages().first &#123;</div><div class="line">	<span class="keyword">let</span> dict = <span class="type">Locale</span>.components(fromIdentifier: firstLanguage)</div><div class="line">	<span class="keyword">let</span> languageCode = dict[<span class="type">String</span>(describing: <span class="type">CFLocaleKey</span>.languageCode.rawValue)]!</div><div class="line">	<span class="comment">//do something with the languageCode</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 上面代码中，kCFLocaleLanguageCode常量已经变成了一个结构体。这种转变使得常量更有组织性。而我们也可以尽可能的采用这种方法定义常量。如：</p>
+ <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">OneTableViewControllerConfiguration</span> </span>&#123;</div><div class="line">	<span class="keyword">static</span> <span class="keyword">let</span> cellHeight: <span class="type">CGFloat</span> = <span class="number">120.0</span></div><div class="line">	...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
 </ol>
 <ol>
-<li><p>Swift 3.0环境中编译器会检测closure的escaping或者nonescaping状态</p>
- <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Swift 2.3</span></div><div class="line"><span class="keyword">var</span> actionBlock: ((<span class="type">ContactBean</span>, (success: <span class="type">Bool</span>) -&gt; <span class="type">Void</span>)-&gt;())?</div><div class="line"><span class="comment">//Swift 3.0</span></div><div class="line"><span class="keyword">var</span> actionBlock: ((<span class="type">ContactBean</span>,@escaping (<span class="number">_</span> success: <span class="type">Bool</span>) -&gt; <span class="type">Void</span>)-&gt;())?</div></pre></td></tr></table></figure>
-<p> 在Swift 2.3时候编译器对上述方法的声明没有任何警告，但是在Swift 3.0下，编译器有了警告。为什么需要在 <strong><em>(\</em> success: Bool) -&gt; Void_</strong> 这个closure前加@escaping修饰符呢？其实这是有上下文的，因为在我们项目中，给这个actionBlock赋值的时候，是传的一个函数。</p>
- <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//actionBlock assignment statement</span></div><div class="line">cell.actionBlock = watchContact</div><div class="line"></div><div class="line"><span class="comment">//the definition of watchContact function</span></div><div class="line"> fileprivate <span class="function"><span class="keyword">func</span> <span class="title">watchContact</span><span class="params">(<span class="number">_</span> contact: ContactBean, completion: @escaping <span class="params">(<span class="number">_</span> success: Bool)</span></span></span> -&gt; <span class="type">Void</span>) &#123;</div><div class="line">        <span class="keyword">let</span> request = ...</div><div class="line">        request.startWithCompletionBlock(</div><div class="line">            success: &#123; request <span class="keyword">in</span></div><div class="line">              	<span class="comment">//use the escaped closure</span></div><div class="line">                completion(<span class="literal">true</span>)</div><div class="line">            &#125;</div><div class="line">            )</div><div class="line">        &#123; request <span class="keyword">in</span></div><div class="line">        	<span class="comment">//failure block</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p> 因为在watchContact function中有网络请求，并且completion closure是在请求完成后才调用的，而watchContact方法在这之前就已经return了，也就是这个closure逃逸了。(备注：watchContact中的@escaping也是这次升级才加上去的)</p>
-<p> 所以Swift 3中编译器对闭包的escaping或者nonescaping的状态检测更加完善，但是一个closure是不是需要加上escaping修饰符，应该是我们开发者需要去思考的事，不能依赖于编译器去发现这种疏漏。</p>
-<p> 下面是官方文档的详解：</p>
-<blockquote>
-<p>Escaping Closures<br> A closure is said to escape a function when the closure is passed as an argument to the function, but is called after the function returns. When you declare a function that takes a closure as one of its parameters, you can write @escaping before the parameter’s type to indicate that the closure is allowed to escape.</p>
-<p>One way that a closure can escape is by being stored in a variable that is defined outside the function. As an example, many functions that start an <strong><em>asynchronous</em></strong> operation take a closure argument as a completion handler. <strong><em>The function returns after it starts the operation, but the closure isn’t called until the operation is completed—the closure needs to escape, to be called later.</em></strong></p>
-<p><em>The Swift Programming Language (Swift 3)</em></p>
-</blockquote>
+<li><p>IUO(ImplicitylyUnwrappedOptional)的变更</p>
+<p> ####Snippet 1</p>
+ <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> firstImageView: <span class="type">UIImageView</span>!</div><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> secondImageView: <span class="type">UIImageView</span>!</div><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> thirdImageView: <span class="type">UIImageView</span>!</div><div class="line">  <span class="keyword">let</span> imgvs = [firstImageView, secondImageView, thirdImageView]</div></pre></td></tr></table></figure>
+<p> ####Snippet 2</p>
+ <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> firstImageView: <span class="type">UIImageView</span>!</div><div class="line"><span class="keyword">let</span> anotherImageView = firstImageView</div></pre></td></tr></table></figure>
 </li>
-<li></li>
 </ol>
+<pre><code>在Swift 3中snipppet 1中的imgvs类型是[UIImageView?]，snippet 2中的anotherImageView的类型是UIImageView?。这不同于Swift 2.3中的表现，故你会发现在refracted后会有很多警告提示要增加？。
+同时我们不能写nested IUOs.
 
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> firstImageView: <span class="type">UIImageView</span>!</div><div class="line"><span class="comment">//compiler will complain about the following line of codes</span></div><div class="line"><span class="keyword">let</span> anotherImageView: [<span class="type">UIImageView</span>!] = [firstImageView]</div></pre></td></tr></table></figure>
+
+上面的代码会报如下错误：![nested IOUs Error][error]
+
+[error]: http://7xkz8b.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-03-05%20%E4%B8%8B%E5%8D%888.41.07.png &quot;error pic&quot;
+</code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://iosmonk.com/2017/03/04/hello-world/" data-id="cizwfvrvs0000they4kb2nen1" class="article-share-link">Share</a>
+      <a data-url="http://iosmonk.com/2017/03/04/hello-world/" data-id="cizwogjw30000bqey8bhon9va" class="article-share-link">Share</a>
       
       
     </footer>
