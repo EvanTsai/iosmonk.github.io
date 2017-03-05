@@ -17,7 +17,7 @@
 准备工作
 知识准备
  在迁移之前我阅读了一篇Swift官方的Migration Guide, 这里基本上">
-<meta property="og:updated_time" content="2017-03-05T14:12:31.000Z">
+<meta property="og:updated_time" content="2017-03-05T14:15:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="迁移到Swift 3">
 <meta name="twitter:description" content="最近将公司项目从Swift 2.3迁移到Swift 3，总共用了四个工作日多点，一个人做的迁移和code review。主要是不能完全依赖于Xcode的refractor，哪怕是refracted出来的代码还是需要再次去review，否则很有可能影响原来的逻辑和功能，所以花的时间还是比较多的。
@@ -164,11 +164,9 @@
 ![nested IOUs Error](http://7xkz8b.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-03-05%20%E4%B8%8B%E5%8D%888.41.07.png &quot;error pic &quot;nested IOUs Error&quot;)
 
 那么如何处理好IOU呢？
-
 + 针对**Array**：
 
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//method 1: You have to make sure that each of the imageviews do have value. Otherwise, it crashes.</span></div><div class="line"><span class="keyword">let</span> imgvs: [<span class="type">UIImageView</span>] = [firstImageView, secondImageView, thirdImageView]</div><div class="line">imgvs.first?.doSomething()</div><div class="line"></div><div class="line"><span class="comment">//method 2: handle the [UIImageView?]</span></div><div class="line"><span class="keyword">let</span> imgvs = [firstImageView, secondImageView, thirdImageView]</div><div class="line">imgvs.first??.doSomething()</div></pre></td></tr></table></figure>
-
 
 + 针对**非Array**
 
@@ -180,7 +178,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://iosmonk.com/2017/03/04/hello-world/" data-id="cizwrcnhz0000y8ey6zag6d4h" class="article-share-link">Share</a>
+      <a data-url="http://iosmonk.com/2017/03/04/hello-world/" data-id="cizwrf9bq0000z6ey08enj9d0" class="article-share-link">Share</a>
       
       
     </footer>
