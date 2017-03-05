@@ -622,7 +622,16 @@ a.article-title:hover {
   border-bottom: 1px solid #ddd;
   padding: 10px 0;
 }
-.article-entry blockquote {
+.article-entry blockquote before {
+  display: block;
+  content: "\201C";
+  font-size: 80px;
+  position: absolute;
+  left: -20px;
+  top: -20px;
+  color: #7a7a7a;
+}
+.article-entry blockquote cite {
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.2em;
   background-color: rgba(102,128,153,0.05);
