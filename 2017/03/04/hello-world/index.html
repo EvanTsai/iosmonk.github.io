@@ -17,7 +17,7 @@
 准备工作
 知识准备
  在迁移之前我阅读了一篇Swift官方的Migration Guide, 这里基">
-<meta property="og:updated_time" content="2017-03-05T08:02:39.000Z">
+<meta property="og:updated_time" content="2017-03-05T08:36:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="迁移到Swift 3">
 <meta name="twitter:description" content="最近将公司项目从Swift 2.3迁移到Swift 3.0，总共用了四个工作日多点，一个人做的迁移和code review。主要是不能完全依赖于Xcode的refractor，哪怕是refracted出来的代码还是需要再次去review，否则很有可能影响原来的逻辑和功能，所以花的时间还是比较多的。
@@ -113,7 +113,7 @@
 <blockquote>
 <p>“Omitting Argument Labels<br> If you don’t want an argument label for a parameter, write an underscore (_) instead of an explicit argument label for that parameter.”</p>
 <p>“If a parameter has an argument label, the argument must be labeled when you call the function.”</p>
-<p>摘录来自: Apple Inc. “The Swift Programming Language (Swift 3)”。 iBooks. </p>
+<p><em>Apple Inc. “The Swift Programming Language (Swift 3)”</em></p>
 </blockquote>
 </li>
 <li><p>Swift 3.0环境中编译器会检测closure的escaping或者nonescaping状态</p>
@@ -128,13 +128,13 @@
 <blockquote>
 <p>“ Escaping Closures<br>A closure is said to escape a function when the closure is passed as an argument to the function, but is called after the function returns. When you declare a function that takes a closure as one of its parameters, you can write @escaping before the parameter’s type to indicate that the closure is allowed to escape.</p>
 <p>One way that a closure can escape is by being stored in a variable that is defined outside the function. As an example, many functions that start an <strong><em>asynchronous</em></strong> operation take a closure argument as a completion handler. <strong><em>The function returns after it starts the operation, but the closure isn’t called until the operation is completed—the closure needs to escape, to be called later.</em></strong>“</p>
-<p><cite>摘录来自: Apple Inc. “The Swift Programming Language (Swift 3)”。 iBooks. </cite></p>
+<p><em>Apple Inc. “The Swift Programming Language (Swift 3)”</em></p>
 </blockquote>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://iosmonk.com/2017/03/04/hello-world/" data-id="cizweapw60000t0eylxlj3chu" class="article-share-link">Share</a>
+      <a data-url="http://iosmonk.com/2017/03/04/hello-world/" data-id="cizwfca73000038eycb8hjyv8" class="article-share-link">Share</a>
       
       
     </footer>
