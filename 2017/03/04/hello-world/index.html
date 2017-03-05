@@ -17,7 +17,7 @@
 准备工作
 知识准备
  在迁移之前我阅读了一篇Swift官方的Migration Guide, 这里基本上">
-<meta property="og:updated_time" content="2017-03-05T12:51:52.000Z">
+<meta property="og:updated_time" content="2017-03-05T12:55:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="迁移到Swift 3">
 <meta name="twitter:description" content="最近将公司项目从Swift 2.3迁移到Swift 3，总共用了四个工作日多点，一个人做的迁移和code review。主要是不能完全依赖于Xcode的refractor，哪怕是refracted出来的代码还是需要再次去review，否则很有可能影响原来的逻辑和功能，所以花的时间还是比较多的。
@@ -161,23 +161,23 @@ A closure is said to escape a function when the closure is passed as an argument
 <li><p>IUO(ImplicitylyUnwrappedOptional)的变更</p>
 <p> ####Snippet 1</p>
  <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> firstImageView: <span class="type">UIImageView</span>!</div><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> secondImageView: <span class="type">UIImageView</span>!</div><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> thirdImageView: <span class="type">UIImageView</span>!</div><div class="line">  <span class="keyword">let</span> imgvs = [firstImageView, secondImageView, thirdImageView]</div></pre></td></tr></table></figure>
-<p> ####Snippet 2</p>
- <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> firstImageView: <span class="type">UIImageView</span>!</div><div class="line"><span class="keyword">let</span> anotherImageView = firstImageView</div></pre></td></tr></table></figure>
 </li>
 </ol>
-<pre><code>在Swift 3中snipppet 1中的imgvs类型是[UIImageView?]，snippet 2中的anotherImageView的类型是UIImageView?。这不同于Swift 2.3中的表现，故你会发现在refracted后会有很多警告提示要增加？。
+<pre><code>####Snippet 2
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> firstImageView: <span class="type">UIImageView</span>!</div><div class="line"><span class="keyword">let</span> anotherImageView = firstImageView</div></pre></td></tr></table></figure>
+
+
+在Swift 3中snipppet 1中的imgvs类型是[UIImageView?]，snippet 2中的anotherImageView的类型是UIImageView?。这不同于Swift 2.3中的表现，故你会发现在refracted后会有很多警告提示要增加？。
 同时我们不能写nested IUOs.
 
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> firstImageView: <span class="type">UIImageView</span>!</div><div class="line"><span class="comment">//compiler will complain about the following line of codes</span></div><div class="line"><span class="keyword">let</span> anotherImageView: [<span class="type">UIImageView</span>!] = [firstImageView]</div></pre></td></tr></table></figure>
 
-上面的代码会报如下错误：![nested IOUs Error][error]
-
-[error]: http://7xkz8b.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-03-05%20%E4%B8%8B%E5%8D%888.41.07.png &quot;error pic&quot;
+上面的代码会报如下错误：![nested IOUs Error](http://7xkz8b.com1.z0.glb.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-03-05%20%E4%B8%8B%E5%8D%888.41.07.png &quot;error pic &quot;nested IOUs Error&quot;)
 </code></pre>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://iosmonk.com/2017/03/04/hello-world/" data-id="cizwogjw30000bqey8bhon9va" class="article-share-link">Share</a>
+      <a data-url="http://iosmonk.com/2017/03/04/hello-world/" data-id="cizwokdzt0000deey7patqbow" class="article-share-link">Share</a>
       
       
     </footer>
